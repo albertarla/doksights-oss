@@ -7,7 +7,7 @@
 Upload manuals, publish them in a branded portal, and let readers ask questions in plain language.
 Answers come from your documents (RAG), and analytics show what people are looking for.
 
-Self-hosted · Supabase + FastAPI + React · Google Gemini or OpenAI
+Self-hosted · Supabase + FastAPI + React · Google Gemini (OpenAI experimental)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -50,7 +50,10 @@ More detail is in [docs/architecture.md](docs/architecture.md) and [docs/functio
 
 ## 🚀 Quickstart (local, about 10 minutes)
 
-**You need:** [Docker](https://docs.docker.com/get-docker/), the [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started), and an API key for [Google AI Studio](https://aistudio.google.com/apikey) (free tier works) or OpenAI.
+**You need:** [Docker](https://docs.docker.com/get-docker/), the [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started), and a [Google AI Studio](https://aistudio.google.com/apikey) API key (free tier works).
+
+> [!NOTE]
+> **Google Gemini is the only tested AI provider.** An OpenAI provider is in the code (`AI_PROVIDER=openai`) but has never been tested end to end. See [Using OpenAI (untested)](#using-openai-untested).
 
 ### 1. Clone and start Supabase
 
@@ -78,7 +81,7 @@ Fill in `.env`:
 | `SUPABASE_SERVICE_KEY` | `SERVICE_ROLE_KEY` (server-side only, never put it in a `VITE_` variable) |
 | `SUPABASE_JWT_SECRET` | `JWT_SECRET` |
 | `SUPABASE_URL_FROM_DOCKER` | uncomment it: `http://host.docker.internal:54321` |
-| `AI_PROVIDER` + key | `google` with `GOOGLE_API_KEY`, or `openai` with `OPENAI_API_KEY` |
+| `AI_PROVIDER`, `GOOGLE_API_KEY` | `google` and your Google AI Studio key |
 
 ### 3. Run
 
@@ -135,13 +138,27 @@ Every setting is documented in [`.env.example`](.env.example). The ones you're m
 
 | Variable | Default | What it does |
 |---|---|---|
-| `AI_PROVIDER` | `google` | `google` or `openai` |
+| `AI_PROVIDER` | `google` | `google` (tested) or `openai` (untested) |
 | `GOOGLE_AI_MODEL` / `OPENAI_AI_MODEL` | `gemini-2.5-flash` / `gpt-4o` | Chat model |
 | `EMBEDDING_MODEL`, `EMBEDDING_DIMENSIONS` | `models/gemini-embedding-001`, `1536` | Must match the `vector(1536)` column. If you change the dimension, change the schema too. |
 | `RAG_CHUNK_SIZE`, `RAG_TOP_K` | `1200`, `5` | Chunking and retrieval |
 | `CLASSIFICATION_ENABLED` | `true` | Background job that groups chat questions into themes for Analytics (uses AI tokens) |
 | `MAX_MANUAL_SIZE_MB` | `20` | Upload limit (the backend keeps the storage bucket in sync) |
 | `RESEND_API_KEY` | empty | Optional. Sends portal invite emails through [Resend](https://resend.com). |
+
+### Using OpenAI (untested)
+
+The code includes an OpenAI provider, but nobody has run DokSights end to end with it yet. If you try it, the Gemini defaults have to be replaced:
+
+```env
+AI_PROVIDER=openai
+OPENAI_API_KEY=sk-...
+OPENAI_AI_MODEL=gpt-4o
+EMBEDDING_MODEL=text-embedding-3-small   # returns 1536 dimensions, which matches the schema
+CLASSIFICATION_MODEL=gpt-4o-mini         # default is a Gemini model
+```
+
+Don't mix providers on one database: embeddings from different models aren't comparable, so re-index every document after switching. Bug reports and PRs are welcome.
 
 Workspace limits (documents, users, AI tokens per month) live in the **Self-hosted** license (Superadmin → Licenses Configurations). Create stricter licenses if you host workspaces for others.
 
