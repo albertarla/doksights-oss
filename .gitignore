@@ -1,0 +1,65 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# python
+__pycache__
+*.pyc
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment files — NEVER commit real secrets
+# Root .env (shared dev config)
+.env
+# Frontend .env (Vite local overrides)
+frontend/.env
+# Any .env.* variants except the example template
+.env.*
+!.env.example
+
+# Testing artifacts
+coverage
+playwright-report/
+test-results/
+blob-report/
+
+# Env templates with sensitive placeholders (no .env extension)
+
+# Supabase CLI local state — created on `supabase link`, contains version cache and project ref
+supabase/.temp
+
+# AI tool and test artifacts
+CLAUDE.md
+.agent/
+.claude/
+scratch/
+*_out.txt
+*_output.txt
+*_report.txt
+*_report.json
+ai_cov.txt
+vitest-output.*
+frontend/company_portal_test.txt
+frontend/test_plain.txt
+
+# Test coverage data
+.coverage

@@ -1,0 +1,9 @@
+title = "DokSights gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Dummy values used only by the test suite"
+regexes = ['''test-jwt-secret-key-32-chars-min''']
+paths = ['''package-lock\.json''']

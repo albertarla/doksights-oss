@@ -1,0 +1,37 @@
+# Runs the DokSights backend and frontend against a Supabase project.
+# For local development, start Supabase first with `supabase start` (see README).
+#
+#   cp .env.example .env   # then fill it in
+#   docker compose up --build
+#
+# Frontend: http://localhost:8080   Backend: http://localhost:8000 (docs at /docs)
+
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    environment:
+      # Inside the container, "localhost" is the container itself. This points the
+      # backend at a Supabase running on your machine; ignored if .env sets a hosted URL.
+      SUPABASE_URL: ${SUPABASE_URL_FROM_DOCKER:-${SUPABASE_URL}}
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  frontend:
+    image: node:20-bookworm
+    working_dir: /frontend
+    command: sh -c "npm ci && npm run dev -- --host 0.0.0.0"
+    env_file: .env
+    environment:
+      # File-change events don't cross Docker bind mounts on Windows/macOS; poll instead.
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend

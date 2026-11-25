@@ -1,0 +1,27 @@
+# Example Render blueprint for the DokSights backend.
+# Fork the repo, point `repo` at your fork, and set every env var in the Render dashboard.
+services:
+  - type: web
+    name: doksights-api
+    runtime: docker
+    repo: https://github.com/YOUR_USER/doksights-oss
+    branch: main
+    rootDir: backend
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - { key: SUPABASE_URL, sync: false }
+      - { key: SUPABASE_SERVICE_KEY, sync: false }
+      - { key: SUPABASE_JWT_SECRET, sync: false }
+      - { key: AI_PROVIDER, sync: false }
+      - { key: GOOGLE_API_KEY, sync: false }
+      - { key: OPENAI_API_KEY, sync: false }
+      - { key: EMBEDDING_MODEL, sync: false }
+      - { key: EMBEDDING_DIMENSIONS, sync: false }
+      - { key: CORS_ORIGINS, sync: false }
+      - { key: CLASSIFICATION_ENABLED, sync: false }
+      - { key: FRONTEND_URL, sync: false }
+      - { key: ENVIRONMENT, value: production }
+      - { key: RESEND_API_KEY, sync: false }
+      - { key: RESEND_SENDER_EMAIL, sync: false }
