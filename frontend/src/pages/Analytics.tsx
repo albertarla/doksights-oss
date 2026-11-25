@@ -272,7 +272,7 @@ const Analytics = () => {
     if (!companyId || !canViewAnalytics || !hasAnalytics) return;
     setIsThemesLoading(true);
 
-    let query = supabase
+    const query = supabase
       .from('ai_chat_themes')
       .select('id, label, title, session_count')
       .eq('company_id', companyId)

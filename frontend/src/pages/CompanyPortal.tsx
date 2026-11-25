@@ -313,7 +313,8 @@ export default function CompanyPortal() {
                       )}
                       <ManualGrid
                         manuals={filteredData.uncategorizedManuals}
-                        onSelectManual={setSelectedManual}
+                        // ManualGrid types pdfUrl as optional (web manuals have none); these come from portalData.
+                        onSelectManual={(manual) => setSelectedManual(manual as Manual)}
                       />
                     </div>
                   )}

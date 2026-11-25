@@ -65,7 +65,7 @@ export function UploadManualDialog({ open, onOpenChange, onSuccess }: UploadManu
 
     try {
       // Upload file to storage
-      const sanitizedFileName = file.name.replace(/[^\x00-\x7F]/g, '_').replace(/\s+/g, '_');
+      const sanitizedFileName = file.name.replace(/[^ -~]/g, '_').replace(/\s+/g, '_');
       const filePath = `${user.id}/${Date.now()}-${sanitizedFileName}`;
       const { error: uploadError } = await supabase.storage
         .from('manuals')

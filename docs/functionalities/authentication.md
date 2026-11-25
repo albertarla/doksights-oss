@@ -1,7 +1,7 @@
 # Authentication & Permissions
 **Status:** Stable
 **Last Updated:** 2026-05-02
-**Related ADR:** ADR-004
+**Related ADR:** ADR-004, ADR-012
 
 ## Objective
 Secure all product endpoints using Supabase-issued JWTs. Implement a granular, per-user permission system that controls access to specific pages in the dashboard. Support invite-based sign-up (joining an existing company), portal-invite sign-up (portal-only access), and a demo request flow for new prospects.

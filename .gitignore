@@ -47,10 +47,10 @@ blob-report/
 # Supabase CLI local state — created on `supabase link`, contains version cache and project ref
 supabase/.temp
 
-# AI tool and test artifacts
-CLAUDE.md
-.agent/
-.claude/
+# AI agent setup is committed (CLAUDE.md, AGENTS.md, .claude/, .agents/); only personal settings are not
+.claude/settings.local.json
+
+# Test artifacts
 scratch/
 *_out.txt
 *_output.txt

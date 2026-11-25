@@ -159,21 +159,32 @@ frontend/           React + Vite + Tailwind + shadcn/ui
 supabase/
   migrations/       Database schema, RLS policies, storage buckets, bootstrap data
   functions/        Edge Function serving the public portal
-docs/               Architecture, feature specs and user guides
+docs/               Architecture, ADRs (docs/adr), feature specs and user guides
+scripts/            run-all-checks.sh / .ps1: the quality gate (same checks as CI)
 load_tests/         Locust load tests
-.agent/             AI coding-agent rules and skills used to build this project
+CLAUDE.md, .claude/ AI coding-agent setup (rules, skills, subagents, hooks); AGENTS.md + .agents/ for Antigravity
 ```
 
-## 🧪 Tests
+## 🧪 Tests and quality gate
 
 ```bash
-cd backend && python -m pytest        # backend
-cd frontend && npm test               # frontend (Vitest)
+bash scripts/run-all-checks.sh        # everything CI checks: secrets, pytest, ESLint, tsc, Vitest, build
+# Windows: powershell -ExecutionPolicy Bypass -File scripts/run-all-checks.ps1
+
+cd backend && python -m pytest        # backend only
+cd frontend && npm test               # frontend only (Vitest)
 ```
 
 ## 🤖 Built with AI agents
 
-The [`.agent/`](.agent) folder holds the rules and skills used while developing DokSights with AI coding agents: test engineers for the backend and frontend, a responsive-design reviewer, a spec architect, and rules such as "keep docs in sync" and "every change needs tests". They're a reusable example of how to steer an agent on a real codebase.
+DokSights is developed with AI coding agents, and the setup is part of the repo as a reusable example of steering an agent on a real codebase:
+
+- [`CLAUDE.md`](CLAUDE.md): the project brief, non-negotiables, workflow and Definition of Done, with the [ADR index](docs/adr/_index.md) imported so every session knows the binding decisions.
+- [`.claude/rules/`](.claude/rules): backend, frontend (mobile-first) and database rules that load only for matching paths.
+- [`.claude/skills/`](.claude/skills): `plan-task`, `sync-docs`, `backend-tests`, `frontend-tests`, `responsive-review` and `ci-runner`.
+- [`.claude/agents/`](.claude/agents): a read-only `architecture-scout` for planning and an `architecture-reviewer` for the final diff.
+- [`.claude/hooks/`](.claude/hooks): lints every frontend file the agent edits, with 0 warnings allowed.
+- [`AGENTS.md`](AGENTS.md) and [`.agents/`](.agents) point Antigravity at the same files, so each rule is written once.
 
 ## 🤝 Contributing
 
@@ -182,6 +193,7 @@ Issues and pull requests are welcome. Please:
 1. Open an issue first for larger changes.
 2. Add or update tests (`backend/tests`, `*.test.tsx`).
 3. Update the relevant file in `docs/` when behavior changes.
+4. Run `scripts/run-all-checks` before opening the PR; CI runs the same checks.
 
 Never commit `.env` files or keys. A [gitleaks](https://github.com/gitleaks/gitleaks) config is included: `gitleaks dir .`
 
