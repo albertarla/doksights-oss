@@ -9,6 +9,8 @@ Answers come from your documents (RAG), and analytics show what people are looki
 
 Self-hosted · Supabase + FastAPI + React · Google Gemini or OpenAI
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 </div>
 
 ![Dashboard](docs/images/dashboard.jpg)
@@ -180,3 +182,7 @@ Issues and pull requests are welcome. Please:
 3. Update the relevant file in `docs/` when behavior changes.
 
 Never commit `.env` files or keys. A [gitleaks](https://github.com/gitleaks/gitleaks) config is included: `gitleaks dir .`
+
+## 📄 License
+
+[MIT](LICENSE): free to use, modify and distribute, including commercially. Keep the copyright notice.
