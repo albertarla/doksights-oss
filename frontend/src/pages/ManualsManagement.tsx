@@ -181,7 +181,7 @@ const ManualsManagement = () => {
 
             // Try to extract a clean message from Postgres errors 
             // e.g., "License limit reached: Cannot exceed X public manuals"
-            let errorMessage = error.message;
+            const errorMessage = error.message;
             if (errorMessage && errorMessage.includes('License limit reached')) {
                 toast.error(errorMessage);
             } else {

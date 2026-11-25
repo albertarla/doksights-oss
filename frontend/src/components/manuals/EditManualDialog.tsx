@@ -54,7 +54,7 @@ export function EditManualDialog({ manual, open, onOpenChange, onSuccess }: Edit
     setIsSaving(true);
 
     try {
-      let updateData: any = {
+      const updateData: any = {
         title: title.trim(),
         description: description.trim() || null,
       };

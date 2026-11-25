@@ -1,0 +1,16 @@
+{
+  "lint-edited-file": {
+    "PostToolUse": [
+      {
+        "matcher": "replace_file_content|multi_replace_file_content|write_to_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node hooks/lint-edited-file.mjs",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}
